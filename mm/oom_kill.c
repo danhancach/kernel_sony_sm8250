@@ -847,7 +847,8 @@ static int __init oom_init(void)
 {
 	struct sched_param param = { .sched_priority = 1 };
 
-	oom_reaper_th = kthread_run(oom_reaper, NULL, "oom_reaper");
+	oom_reaper_th = kthread_run_perf_critical(cpu_perf_mask, oom_reaper,
+					NULL, "oom_reaper");
 	sched_setscheduler_nocheck(oom_reaper_th, SCHED_FIFO,
 					 &param);
 	return 0;
